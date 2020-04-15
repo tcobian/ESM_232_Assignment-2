@@ -24,23 +24,27 @@ P = percipitation in mm in that month
 
 1. Implement a model of almond yield anomaly (difference from average) in R based on this paper; You will be graded both on the “correctness” of the implementation and on “style”.  Make sure you add some error checking. Use coefficients in the paper as default values, but make sure you can vary them. 
 ```{r}
-almond_yield <- function( years , months , Tn, Tx , P , a=0.015, b=- 0.0046, c=-0.07, d=0.0043, e=0.28 ){
+almond_yield <- function(years , months, tmin_c, tmax_c, percip, a=0.015, b=- 0.0046, c=-0.07, d=0.0043, e=0.28 ){
 
   # Yield Equation
-  Y <-  a*Tn[2] + b*Tn[2]^2 +c*P[1] + d*P[1]^2 + e
-  
-  # Max
-  
-  # Min
-  
-  # List
+  Y <-  a*tmin_c[2] + b*tmin_c[2]^2 +c*P[1] + d*P[1]^2 + e
 
 return(Y)
 }
+
+
+
 ```
 
 
 2. Have the function return almond yield anomaly for each year, and max and minimum yields over a time series of multiple year inputs
+
+Try doing this with sapply
+```{r}
+
+
+```
+
 
 
 3. With the climate data provided (clim.txt), *use your model* to estimate how almond yield anomalies for each year in the record - graph the results.
