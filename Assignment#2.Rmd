@@ -21,6 +21,8 @@ The basis of the model equations
 Y = - 0.015 Tn2 - 0.0046 Tn2^2 - 0.07P1 _ 0.0043P1^2 + 0.28
 Tn = minimum temperature in degrees celcius in that month
 P = percipitation in mm in that month
+
+1. Implement a model of almond yield anomaly (difference from average) in R based on this paper; You will be graded both on the “correctness” of the implementation and on “style”.  Make sure you add some error checking. Use coefficients in the paper as default values, but make sure you can vary them. 
 ```{r}
 almond_yield <- function( years = clim$year, months = clim$month, Tn = clim$tmin_c, Tx = clim$tmax_c, P, a=0.015, b=- 0.0046, c=-0.07, d=0.0043, e=0.28 ){
 
@@ -35,6 +37,17 @@ almond_yield <- function( years = clim$year, months = clim$month, Tn = clim$tmin
 
 }
 ```
+
+
+2. Have the function return almond yield anomaly for each year, and max and minimum yields over a time series of multiple year inputs
+
+
+3. With the climate data provided (clim.txt), *use your model* to estimate how almond yield anomalies for each year in the record - graph the results.
+
+4. Use model to estimate  the mean annual yield anomaly if the last 20 years had been 2C warmer
+
+5. Vary one of the parameter by sampling from a normal distribution with mean the value from Lobell et al., (2006) and standard deviation 10% of the mean -  create a box plot of  mean annual yield anomaly for baseline and 2C climate (where boxes show variation due to uncertanty in the parameter) 
+
 
 Naomi's hint
 ```{r}
