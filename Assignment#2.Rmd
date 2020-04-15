@@ -12,7 +12,7 @@ library(tidyverse)
 
 Climate data
 ```{r}
-
+clim <- read.table("clim.txt",  sep=" ", header=T)
 ```
 
 Function
@@ -22,9 +22,28 @@ Y = - 0.015 Tn2 - 0.0046 Tn2^2 - 0.07P1 _ 0.0043P1^2 + 0.28
 Tn = minimum temperature in degrees celcius in that month
 P = percipitation in mm in that month
 ```{r}
+almond_yield <- function( years, months, Tn, Tx, P, a=0.015, b=- 0.0046, c=-0.07, d=0.0043, e=0.28 ){
 
+  # Yield 
+  Y <-  a*Tn[2] + b*Tn[2]^2 +c*P[1] + d*P[1]^2 + e
+  
+  # Max
+  
+  # Min
+  
+  # List
+
+}
 ```
 
+Naomi's hint
+```{r}
+# Average monthly maximum daily temperature, and monthly precipitation from a data frame called clim  with columns year, month, precip and tmax_c
 
+clim_month <-  clim %>%
+group_by(month, year) %>%
+summarize(meantmax = mean(tmax_c), precip=sum(precip))
+
+```
 
 
