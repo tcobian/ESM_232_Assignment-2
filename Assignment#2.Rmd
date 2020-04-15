@@ -22,9 +22,9 @@ Y = - 0.015 Tn2 - 0.0046 Tn2^2 - 0.07P1 _ 0.0043P1^2 + 0.28
 Tn = minimum temperature in degrees celcius in that month
 P = percipitation in mm in that month
 ```{r}
-almond_yield <- function( years, months, Tn, Tx, P, a=0.015, b=- 0.0046, c=-0.07, d=0.0043, e=0.28 ){
+almond_yield <- function( years = clim$year, months = clim$month, Tn = clim$tmin_c, Tx = clim$tmax_c, P, a=0.015, b=- 0.0046, c=-0.07, d=0.0043, e=0.28 ){
 
-  # Yield 
+  # Yield Equation
   Y <-  a*Tn[2] + b*Tn[2]^2 +c*P[1] + d*P[1]^2 + e
   
   # Max
