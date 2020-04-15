@@ -10,8 +10,21 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+Climate data
+```{r}
+
+```
+
+Function
+
 The basis of the model equations
 Y = - 0.015 Tn2 - 0.0046 Tn2^2 - 0.07P1 _ 0.0043P1^2 + 0.28
 Tn = minimum temperature in degrees celcius in that month
 P = percipitation in mm in that month
+```{r}
+
+```
+
+
+
 
