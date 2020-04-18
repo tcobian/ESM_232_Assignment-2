@@ -36,34 +36,32 @@ return(Y)
 
 ```
 
-Naomi's hint
-```{r}
-# Average monthly maximum daily temperature, and monthly precipitation from a data frame called clim  with columns year, month, precip and tmax_c
 
-clim_month <-  clim %>%
-group_by(month, year) %>%
-summarize(meantmin = mean(tmin_c),
-          meantmax = mean(tmax_c),
-          precip=sum(precip))
-
-```
 
 ```{r}
 
 # I think this function works but we can probably come up with a more elegant solution 
 
-almond_yield <- function( clim_data = clim_month,
+almond_yield <- function( clim_data = clim,
                        a=0.015,
                        b=-0.0046,
                        c=-0.07,
                        d=0.0043,
                        e=0.28) {
   
+  # Average monthly maximum daily temperature, and monthly precipitation from a data frame called clim  with columns year, month, precip and tmax_c
+
+clim_month <-  clim_data %>%
+group_by(month, year) %>%
+summarize(meantmin = mean(tmin_c),
+          meantmax = mean(tmax_c),
+          precip=sum(precip))
+  
    # Filter Jan and Feb data
-  jan <- clim_data %>% 
+  jan <- clim_month %>% 
     filter(month==1)
   
-  feb <- clim_data %>% 
+  feb <- clim_month %>% 
     filter(month==2)
   
   # Change column names
@@ -130,7 +128,21 @@ graph_YA <- ggplot( clim_YA, aes( x = year, y = YA)) +
 graph_YA
 ```
 
-4. Use model to estimate  the mean annual yield anomaly if the last 20 years had been 2C warmer
+4. Use model to estimate the mean annual yield anomaly if the last 20 years had been 2C warmer
+```{r}
+# Make new clim data with min and max temp 2 degrees warmer
+clim2 <- clim %>%
+  mutate(tmin_c = tmin_c + 2) %>% 
+  mutate(tmax_c = tmin_c + 2)
+
+# Use function and convert to df
+clim2_YA <- as.data.frame(almond_yield(clim_data = clim2)[1])
+
+# Calculate mean
+mean_clim2_YA <- mean(clim2_YA$YA)
+mean_clim2_YA # 181.5714
+
+```
 
 
 
