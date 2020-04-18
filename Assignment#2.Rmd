@@ -36,6 +36,17 @@ return(Y)
 
 ```
 
+Naomi's hint
+```{r}
+# Average monthly maximum daily temperature, and monthly precipitation from a data frame called clim  with columns year, month, precip and tmax_c
+
+clim_month <-  clim %>%
+group_by(month, year) %>%
+summarize(meantmin = mean(tmin_c),
+          meantmax = mean(tmax_c),
+          precip=sum(precip))
+
+```
 
 ```{r}
 
@@ -60,7 +71,7 @@ almond_yield <- function( clim_data = clim_month,
   colnames(feb) <- c("month", "year", "Tn", "Tm", "P")
   
   # Data structure for yield annomalies
-  yield_df <- data.frame(year = year, YA = NA)
+  yield_df <- data.frame(year = jan$year, YA = NA)
   
   # Loop through each year
   for (i in 1:length(yield_df$year)) {
@@ -102,19 +113,28 @@ Try doing this with sapply
 
 3. With the climate data provided (clim.txt), *use your model* to estimate how almond yield anomalies for each year in the record - graph the results.
 
+```{r}
+# Select fist element of the output list
+clim_YA <- as.data.frame(almond_yield()[1])
+clim_YA
+
+# Create graph
+graph_YA <- ggplot( clim_YA, aes( x = year, y = YA)) +
+  geom_point() +
+  xlab("Year") +
+  ylab("Yield Anomaly") + # units?
+  ggtitle("Almond Yield Anomalies (1989 - 2010)") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+graph_YA
+```
+
 4. Use model to estimate  the mean annual yield anomaly if the last 20 years had been 2C warmer
+
+
 
 5. Vary one of the parameter by sampling from a normal distribution with mean the value from Lobell et al., (2006) and standard deviation 10% of the mean -  create a box plot of  mean annual yield anomaly for baseline and 2C climate (where boxes show variation due to uncertanty in the parameter) 
 
-
-Naomi's hint
-```{r}
-# Average monthly maximum daily temperature, and monthly precipitation from a data frame called clim  with columns year, month, precip and tmax_c
-
-clim_month <-  clim %>%
-group_by(month, year) %>%
-summarize(meantmax = mean(tmax_c), precip=sum(precip))
-
-```
 
 
