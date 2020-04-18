@@ -37,6 +37,59 @@ return(Y)
 ```
 
 
+```{r}
+
+# I think this function works but we can probably come up with a more elegant solution 
+
+almond_yield <- function( clim_data = clim_month,
+                       a=0.015,
+                       b=-0.0046,
+                       c=-0.07,
+                       d=0.0043,
+                       e=0.28) {
+  
+   # Filter Jan and Feb data
+  jan <- clim_data %>% 
+    filter(month==1)
+  
+  feb <- clim_data %>% 
+    filter(month==2)
+  
+  # Change column names
+  colnames(jan) <- c("month", "year", "Tn", "Tm", "P")
+  colnames(feb) <- c("month", "year", "Tn", "Tm", "P")
+  
+  # Data structure for yield annomalies
+  yield_df <- data.frame(year = year, YA = NA)
+  
+  # Loop through each year
+  for (i in 1:length(yield_df$year)) {
+   yield_df$YA[i] = a*feb$Tn[i] + b*(feb$Tn[i]^2) +c*jan$P[i] + d*(jan$P[i]^2) + e
+}
+  
+  # Calculate max and min yields
+  max_yield <- yield_df %>% 
+    arrange(-abs(YA)) %>% 
+    head(1)
+  
+  min_yield <- yield_df %>% 
+    arrange(abs(YA)) %>% 
+    head(1)
+  
+  # Create list with three elements
+  yield_list <- list(yield_df, max_yield, min_yield)
+  
+  # Return list
+return(yield_list)
+  
+}
+  
+almond_yield()
+```
+
+
+
+
 2. Have the function return almond yield anomaly for each year, and max and minimum yields over a time series of multiple year inputs
 
 Try doing this with sapply
