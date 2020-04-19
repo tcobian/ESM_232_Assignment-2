@@ -146,8 +146,9 @@ clim_rnorm<- as.data.frame(almond_yield(clim_data = clim3)[1])
 
 # Make a box plot with this new data
 graph_rnorm<- ggplot(clim_rnorm, aes(x = year, y = YA, group = year))+
-  geom_boxplot(aes(color = year))+
-  geom_errorbar(mapping = aes(ymax = (YA*1.1), ymin = (YA*0.9)), position = position_dodge())
+  geom_col(aes(fill = year), show.legend = FALSE)+
+  geom_errorbar(mapping = aes(ymax = (YA*1.1), ymin = (YA*0.9)), position = position_dodge())+
+  labs(x = "Year", y = "Yield Anomoly", title = "Yearly Yield Anomoly With a Normal Distribution of Minimum Temperature")
 graph_rnorm
 
 ```
