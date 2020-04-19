@@ -43,7 +43,7 @@ return(Y)
 # I think this function works but we can probably come up with a more elegant solution 
 
 almond_yield <- function( clim_data = clim,
-                       a=0.015,
+                       a=-0.015,
                        b=-0.0046,
                        c=-0.07,
                        d=0.0043,
@@ -140,13 +140,24 @@ clim2_YA <- as.data.frame(almond_yield(clim_data = clim2)[1])
 
 # Calculate mean
 mean_clim2_YA <- mean(clim2_YA$YA)
-mean_clim2_YA # 181.5714
+mean_clim2_YA # 181.2151
+
+```
+
+5. Vary one of the parameters by sampling from a normal distribution with mean the value from Lobell et al., (2006) and standard deviation 10% of the mean -  create a box plot of  mean annual yield anomaly for baseline and 2C climate (where boxes show variation due to uncertanty in the parameter) 
+
+```{r}
+# Create sample
+sample <- rnorm( n = 5, mean = 0.0043, sd = 0.00043)
+
+
+
 
 ```
 
 
 
-5. Vary one of the parameter by sampling from a normal distribution with mean the value from Lobell et al., (2006) and standard deviation 10% of the mean -  create a box plot of  mean annual yield anomaly for baseline and 2C climate (where boxes show variation due to uncertanty in the parameter) 
+
 
 
 
