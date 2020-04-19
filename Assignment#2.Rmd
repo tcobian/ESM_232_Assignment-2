@@ -13,6 +13,7 @@ library(tidyverse)
 Input the climate data
 ```{r}
 clim <- read.table("clim.txt",  sep=" ", header=T)
+  
 ```
 
 Function
@@ -36,6 +37,20 @@ almond_yield <- function( clim_data = clim,
                        c=-0.07,
                        d=0.0043,
                        e=0.28) {
+  
+  # Add in some error checking into the function
+  
+  # Make sure the climate data input is a dataframe
+  clim_data = ifelse(class(clim_data) != "data.frame", return("Climate data input must be a data frame"), clim_data)
+  
+   # Make sure the climate data input contains the columns year, month, precip, tmin_c and tmax_c
+ clim_data = ifelse(all(has_name(clim_data, c("year", "month", "precip", "tmax_c", "tmin_c"))) != TRUE, return ("Climate data input must contain the following columns: year, month, precip, tmin_c and tmax_c"), clim_data)
+  
+  # Make sure that the input for precipitation is larger than 0
+  clim_data$precip = ifelse(clim_data$precip < 0, return("Input for precipitation must be a value larger than 0"), clim_data$precip)
+  
+  # Make sure that the maximum tempertaure will be larger than the minimum temperature
+  clim_data$tmin_c = ifelse(clim_data$tmin_c > clim_data$tmax_c, return("Input for maximum temperature must be larger than input for minimum temperature"), clim_data$tmin_c)
   
   # Average monthly maximum daily temperature, and monthly precipitation from a data frame called clim  with columns year, month, precip and tmax_c
 
@@ -78,15 +93,6 @@ summarize(meantmin = mean(tmin_c),
   
   # Return list
 return(yield_list)
-  
-# Add in some error checking into the function
-  
-  # Make sure that the input for precipitation is larger than 0
-  if (P < 0) return("Input for precipitation must be a value larger than 0")
-  
-  # Make sure that the maximum tempertaure will be larger than the minimum temperature
-  if (tmin_c > tmax_c) return("Cannot contain inputs where is minimum termperature is larger than the maximum termperature")
-  
 }
   
 almond_yield()
