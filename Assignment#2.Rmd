@@ -49,7 +49,7 @@ almond_yield <- function( clim_data = clim,
   clim_data$precip = ifelse(clim_data$precip < 0, return("Input for precipitation must be a value larger than 0"), clim_data$precip)
   
   # Make sure that the maximum tempertaure will be larger than the minimum temperature
-  #clim_data$tmin_c = ifelse(clim_data$tmin_c > clim_data$tmax_c, return("Input for maximum temperature must be larger than input for minimum temperature"), clim_data$tmin_c)
+  clim_data$tmin_c = ifelse(clim_data$tmin_c > clim_data$tmax_c, return("Input for maximum temperature must be larger than input for minimum temperature"), clim_data$tmin_c)
   
   # Average monthly maximum daily temperature, and monthly precipitation from a data frame called clim  with columns year, month, precip and tmax_c
 
@@ -86,6 +86,11 @@ summarize(meantmin = mean(tmin_c),
   min_yield <- yield_df %>% 
     arrange(abs(YA)) %>% 
     head(1)
+  
+  # Change column names of outputs
+  colnames(yield_df) <- c("Year", "Yield Anomaly")
+  colnames(max_yield) <- c("Year", "Maximum Yield Anomaly")
+  colnames(min_yield) <- c("Year", "Minimum Yield Anomaly")
   
   # Create list with three elements
   yield_list <- list(yield_df, max_yield, min_yield)
