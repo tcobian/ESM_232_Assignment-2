@@ -13,7 +13,6 @@ library(tidyverse)
 Input the climate data
 ```{r}
 clim <- read.table("clim.txt",  sep=" ", header=T)
-  
 ```
 
 Function
@@ -41,10 +40,10 @@ almond_yield <- function( clim_data = clim,
   # Add in some error checking into the function
   
   # Make sure the climate data input is a dataframe
-  #clim_data = ifelse(class(clim_data) != "data.frame", return("Climate data input must be a data frame"), clim_data)
+  if(class(clim_data) != "data.frame") return("Climate data input must be a data frame")
   
    # Make sure the climate data input contains the columns year, month, precip, tmin_c and tmax_c
- #clim_data = ifelse(all(has_name(clim_data, c("month", "year", "P", "Tm", "Tn"))) != TRUE, return ("Climate data input must contain the following columns: year, month, precip, tmin_c and tmax_c"), clim_data)
+  if(!all(has_name(clim_data, c("month", "year",  "month", "precip", "tmin_c", "tmax_c")))) return("Climate data input must contain the following columns: year, month, precip, tmin_c and tmax_c")
   
   # Make sure that the input for precipitation is larger than 0
   clim_data$precip = ifelse(clim_data$precip < 0, return("Input for precipitation must be a value larger than 0"), clim_data$precip)
