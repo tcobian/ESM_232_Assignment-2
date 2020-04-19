@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-Climate data
+Input the climate data
 ```{r}
 clim <- read.table("clim.txt",  sep=" ", header=T)
 ```
@@ -23,20 +23,6 @@ Tn = minimum temperature in degrees celcius in that month
 P = percipitation in mm in that month
 
 1. Implement a model of almond yield anomaly (difference from average) in R based on this paper; You will be graded both on the “correctness” of the implementation and on “style”.  Make sure you add some error checking. Use coefficients in the paper as default values, but make sure you can vary them. 
-```{r}
-almond_yield <- function(years , months, tmin_c, tmax_c, percip, a=0.015, b=- 0.0046, c=-0.07, d=0.0043, e=0.28 ){
-
-  # Yield Equation
-  Y <-  a*tmin_c[2] + b*tmin_c[2]^2 +c*P[1] + d*P[1]^2 + e
-
-return(Y)
-}
-
-
-
-```
-
-
 
 ```{r}
 
@@ -101,11 +87,7 @@ almond_yield()
 
 2. Have the function return almond yield anomaly for each year, and max and minimum yields over a time series of multiple year inputs
 
-Try doing this with sapply
-```{r}
 
-
-```
 
 
 
@@ -147,6 +129,50 @@ mean_clim2_YA # 181.5714
 
 
 5. Vary one of the parameter by sampling from a normal distribution with mean the value from Lobell et al., (2006) and standard deviation 10% of the mean -  create a box plot of  mean annual yield anomaly for baseline and 2C climate (where boxes show variation due to uncertanty in the parameter) 
+
+```{r}
+
+# Make a normal distribution for the tmin parameter in the model with the mean value of 4 degrees C which is the value used in the paper
+tmin = rnorm(length(clim2), 12, 0.1)
+
+# insert the new tmin value that is gained from a normal ditribution for tmin values in a new data frame clim3
+clim3<- clim2 %>% 
+  merge(tmin) %>% 
+  select(-tmin) %>% 
+  select(-y)
+
+# run this new data through the function
+clim_rnorm<- as.data.frame(almond_yield(clim_data = clim3)[1])
+
+# Make a box plot with this new data
+graph_rnorm<- ggplot(clim_rnorm, aes(x = year, y = YA, group = year))+
+  geom_boxplot(aes(color = year))+
+  geom_errorbar(mapping = aes(ymax = (YA*1.1), ymin = (YA*0.9)), position = position_dodge())
+graph_rnorm
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
