@@ -24,6 +24,8 @@ P = percipitation in mm in that month
 
 1. Implement a model of almond yield anomaly (difference from average) in R based on this paper; You will be graded both on the “correctness” of the implementation and on “style”.  Make sure you add some error checking. Use coefficients in the paper as default values, but make sure you can vary them. 
 
+2. Have the function return almond yield anomaly for each year, and max and minimum yields over a time series of multiple year inputs
+
 ```{r}
 
 # I think this function works but we can probably come up with a more elegant solution 
@@ -77,20 +79,18 @@ summarize(meantmin = mean(tmin_c),
   # Return list
 return(yield_list)
   
+# Add in some error checking into the function
+  
+  # Make sure that the input for precipitation is larger than 0
+  if (P < 0) return("Input for precipitation must be a value larger than 0")
+  
+  # Make sure that the maximum tempertaure will be larger than the minimum temperature
+  if (tmin_c > tmax_c) return("Cannot contain inputs where is minimum termperature is larger than the maximum termperature")
+  
 }
   
 almond_yield()
 ```
-
-
-
-
-2. Have the function return almond yield anomaly for each year, and max and minimum yields over a time series of multiple year inputs
-
-
-
-
-
 3. With the climate data provided (clim.txt), *use your model* to estimate how almond yield anomalies for each year in the record - graph the results.
 
 ```{r}
@@ -159,7 +159,8 @@ clim_rnorm<- as.data.frame(almond_yield(clim_data = clim3)[1])
 graph_rnorm<- ggplot(clim_rnorm, aes(x = year, y = YA, group = year))+
   geom_col(aes(fill = year), show.legend = FALSE)+
   geom_errorbar(mapping = aes(ymax = (YA*1.1), ymin = (YA*0.9)), position = position_dodge())+
-  labs(x = "Year", y = "Yield Anomoly", title = "Yearly Yield Anomoly With a Normal Distribution of Minimum Temperature")
+  labs(x = "Year", y = "Yield Anomoly", title = "Yearly Yield Anomoly With a Normal Distribution of Minimum Temperature")+
+  theme_bw()
 graph_rnorm
 
 ```
