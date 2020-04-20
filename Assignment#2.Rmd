@@ -27,9 +27,6 @@ P = percipitation in mm in that month
 2. Have the function return almond yield anomaly for each year, and max and minimum yields over a time series of multiple year inputs
 
 ```{r}
-
-# I think this function works but we can probably come up with a more elegant solution 
-
 almond_yield <- function( clim_data = clim,
                        a=-0.015,
                        b=-0.0046,
@@ -87,8 +84,7 @@ summarize(meantmin = mean(tmin_c),
     arrange(abs(YA)) %>% 
     head(1)
   
-  # Change column names of outputs
-  colnames(yield_df) <- c("Year", "Yield Anomaly")
+  # Change column names of max and min yields
   colnames(max_yield) <- c("Year", "Maximum Yield Anomaly")
   colnames(min_yield) <- c("Year", "Minimum Yield Anomaly")
   
@@ -109,7 +105,7 @@ clim_YA <- as.data.frame(almond_yield()[1])
 clim_YA
 
 # Create graph
-graph_YA <- ggplot( clim_YA, aes( x = Year, y = Yield.Anomaly)) +
+graph_YA <- ggplot( clim_YA, aes( x = year, y = YA)) +
   geom_point() +
   xlab("Year") +
   ylab("Yield Anomaly") + # units?
@@ -139,17 +135,6 @@ mean_clim2_YA # 181.2151
 5. Vary one of the parameters by sampling from a normal distribution with mean the value from Lobell et al., (2006) and standard deviation 10% of the mean -  create a box plot of  mean annual yield anomaly for baseline and 2C climate (where boxes show variation due to uncertanty in the parameter) 
 
 ```{r}
-# Create sample
-sample <- rnorm( n = 5, mean = 0.0043, sd = 0.00043)
-
-```
-
-
-
-
-
-```{r}
-
 # Make a normal distribution for the tmin parameter in the model with the mean value of 4 degrees C which is the value used in the paper
 tmin = rnorm(length(clim2$year), 12, 0.1)
 
