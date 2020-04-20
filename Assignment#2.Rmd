@@ -109,7 +109,7 @@ clim_YA <- as.data.frame(almond_yield()[1])
 clim_YA
 
 # Create graph
-graph_YA <- ggplot( clim_YA, aes( x = year, y = YA)) +
+graph_YA <- ggplot( clim_YA, aes( x = Year, y = Yield.Anomaly)) +
   geom_point() +
   xlab("Year") +
   ylab("Yield Anomaly") + # units?
